@@ -3,48 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accueil - Ma Boutique</title>
+    <title>Accueil - TechStore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; background-color: #f4f4f9; color: #333; }
-        header { background-color: #2c3e50; color: white; padding: 1rem; display: flex; justify-content: space-between; align-items: center; }
-        nav a { color: white; text-decoration: none; margin-left: 15px; font-weight: bold; }
-        nav a:hover { text-decoration: underline; }
-        .container { max-width: 800px; margin: 50px auto; text-align: center; background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .btn { display: inline-block; padding: 10px 20px; background-color: #3498db; color: white; text-decoration: none; border-radius: 5px; margin-top: 20px; }
-        .btn:hover { background-color: #2980b9; }
-        #logoutBtn { background-color: #e74c3c; cursor: pointer; border: none; font-size: 1rem; padding: 10px; color: white; border-radius: 5px; display: none; }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: 'Poppins', sans-serif; background-color: #f9fafb; color: #1f2937; }
+
+        /* Navbar */
+        header {
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo { font-size: 1.5rem; font-weight: 700; color: #4f46e5; text-decoration: none; }
+        
+        nav { display: flex; gap: 20px; align-items: center; }
+        nav a { color: #4b5563; text-decoration: none; font-weight: 500; transition: color 0.2s; }
+        nav a:hover { color: #4f46e5; }
+        
+        /* Boutons */
+        .btn-primary {
+            background-color: #4f46e5;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .btn-primary:hover { background-color: #4338ca; }
+        
+        .btn-logout { background-color: #fee2e2; color: #b91c1c; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-family: inherit; font-weight: 500; display: none; }
+        .btn-logout:hover { background-color: #fecaca; }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            background: linear-gradient(to bottom, #eef2ff, #ffffff);
+        }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; color: #111827; }
+        .hero p { font-size: 1.25rem; color: #6b7280; max-width: 600px; margin: 0 auto 40px; }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: #4f46e5;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
+            transition: transform 0.2s;
+        }
+        .cta-button:hover { transform: translateY(-2px); box-shadow: 0 15px 25px rgba(79, 70, 229, 0.4); }
+
     </style>
 </head>
 <body>
 
 <header>
-    <h1>Ma Boutique</h1>
+    <a href="index.html" class="logo">TechStore.</a>
     <nav>
         <a href="index.html">Accueil</a>
         <a href="products_page.html">Produits</a>
-        <a href="connection_page.html" id="loginLink">Connexion</a>
-        <button id="logoutBtn">Déconnexion</button>
+        <a href="connection_page.html" id="loginLink" class="btn-primary">Connexion</a>
+        <button id="logoutBtn" class="btn-logout">Déconnexion</button>
     </nav>
 </header>
 
-<main class="container">
-    <h2 id="welcomeMsg">Bienvenue sur notre site !</h2>
-    <p>Découvrez nos produits exceptionnels au meilleur prix.</p>
-    <a href="products_page.html" class="btn">Voir les produits</a>
+<main>
+    <section class="hero">
+        <h1 id="welcomeMsg">Le futur de la tech est ici.</h1>
+        <p>Explorez notre sélection exclusive de produits high-tech conçus pour améliorer votre quotidien.</p>
+        <a href="products_page.html" class="cta-button">Découvrir le catalogue</a>
+    </section>
 </main>
 
 <script>
-    // Logique Client : Vérification de la session
     const username = localStorage.getItem('username');
     const loginLink = document.getElementById('loginLink');
     const logoutBtn = document.getElementById('logoutBtn');
     const welcomeMsg = document.getElementById('welcomeMsg');
 
     if (username) {
-        // L'utilisateur est connecté
         loginLink.style.display = 'none';
-        logoutBtn.style.display = 'inline-block';
-        welcomeMsg.textContent = `Bonjour, ${username} ! Prêt à faire des achats ?`;
+        logoutBtn.style.display = 'block';
+        welcomeMsg.textContent = `Heureux de vous revoir, ${username}.`;
         
         logoutBtn.addEventListener('click', () => {
             localStorage.removeItem('username');
