@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #e9ecef; margin: 0; }
+        .login-card { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        h2 { text-align: center; color: #2c3e50; margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background-color: #27ae60; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin-top: 10px; }
+        button:hover { background-color: #219150; }
+        .error { color: red; text-align: center; margin-top: 10px; font-size: 0.9em; }
+        .back-link { display: block; text-align: center; margin-top: 15px; text-decoration: none; color: #7f8c8d; }
+    </style>
+</head>
+<body>
+
+<div class="login-card">
+    <h2>Connexion</h2>
+    <form id="loginForm">
+        <div class="form-group">
+            <label for="username">Nom d'utilisateur</label>
+            <input type="text" id="username" name="username" placeholder="ex: alice" required>
+        </div>
+        <button type="submit">Se connecter</button>
+        <p class="error" id="errorMsg"></p>
+    </form>
+    <a href="index.html" class="back-link">Retour à l'accueil</a>
+</div>
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const usernameInput = document.getElementById('username').value;
+        const errorMsg = document.getElementById('errorMsg');
+
+        try {
+            // --- C'est ici que tu connecteras ton futur Node.js ---
+            // Nous envoyons une requête POST à l'endpoint /api/login
+            const response = await fetch('http://localhost:3000/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: usernameInput })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // Simuler une session en stockant le nom dans le navigateur
+                localStorage.setItem('username', data.user.username);
+                window.location.href = 'index.html'; // Redirection
+            } else {
+                errorMsg.textContent = data.message || "Erreur de connexion";
+            }
+        } catch (error) {
+            console.error('Erreur:', error);
+            // Pour le test (si le backend n'est pas encore lancé), on force la connexion :
+            // DELETE CE BLOC UNE FOIS LE BACKEND PRÊT
+            alert("Backend non détecté. Mode démo activé.");
+            localStorage.setItem('username', usernameInput);
+            window.location.href = 'index.html';
+        }
+    });
+</script>
+
+</body>
+</html>

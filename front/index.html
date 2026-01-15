@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil - Ma Boutique</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; background-color: #f4f4f9; color: #333; }
+        header { background-color: #2c3e50; color: white; padding: 1rem; display: flex; justify-content: space-between; align-items: center; }
+        nav a { color: white; text-decoration: none; margin-left: 15px; font-weight: bold; }
+        nav a:hover { text-decoration: underline; }
+        .container { max-width: 800px; margin: 50px auto; text-align: center; background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .btn { display: inline-block; padding: 10px 20px; background-color: #3498db; color: white; text-decoration: none; border-radius: 5px; margin-top: 20px; }
+        .btn:hover { background-color: #2980b9; }
+        #logoutBtn { background-color: #e74c3c; cursor: pointer; border: none; font-size: 1rem; padding: 10px; color: white; border-radius: 5px; display: none; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Ma Boutique</h1>
+    <nav>
+        <a href="index.html">Accueil</a>
+        <a href="products_page.html">Produits</a>
+        <a href="connection_page.html" id="loginLink">Connexion</a>
+        <button id="logoutBtn">Déconnexion</button>
+    </nav>
+</header>
+
+<main class="container">
+    <h2 id="welcomeMsg">Bienvenue sur notre site !</h2>
+    <p>Découvrez nos produits exceptionnels au meilleur prix.</p>
+    <a href="products_page.html" class="btn">Voir les produits</a>
+</main>
+
+<script>
+    // Logique Client : Vérification de la session
+    const username = localStorage.getItem('username');
+    const loginLink = document.getElementById('loginLink');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const welcomeMsg = document.getElementById('welcomeMsg');
+
+    if (username) {
+        // L'utilisateur est connecté
+        loginLink.style.display = 'none';
+        logoutBtn.style.display = 'inline-block';
+        welcomeMsg.textContent = `Bonjour, ${username} ! Prêt à faire des achats ?`;
+        
+        logoutBtn.addEventListener('click', () => {
+            localStorage.removeItem('username');
+            window.location.reload();
+        });
+    }
+</script>
+
+</body>
+</html>
