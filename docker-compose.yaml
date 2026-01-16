@@ -34,7 +34,7 @@ services:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - internal
-    # ❌ No ports exposed → only Node.js can access it
+    # No ports exposed -> only Node.js can access it
 
 networks:
   internal:

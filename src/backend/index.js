@@ -23,6 +23,7 @@ app.use(express.static('front'));
 // 2. Your API Routes (Backend)
 
 // --- Users CRUD ---
+// Get users
 app.get('/api/users', async (req, res) => {
     try {
         const [rows] = await pool.query('SELECT * FROM users');
@@ -32,6 +33,7 @@ app.get('/api/users', async (req, res) => {
     }
 });
 
+// Login with user
 app.post('/api/users/login', async (req, res) => {
     try {
         const { username } = req.body;
@@ -43,6 +45,7 @@ app.post('/api/users/login', async (req, res) => {
     }
 });
 
+// Create new user if doesn't exist
 app.post('/api/users/register', async (req, res) => {
     try {
         const { username } = req.body;
@@ -59,6 +62,7 @@ app.post('/api/users/register', async (req, res) => {
     }
 });
 
+// Get user by id
 app.get('/api/users/:id', async (req, res) => {
     try {
         const [rows] = await pool.query('SELECT * FROM users WHERE id = ?', [req.params.id]);
@@ -69,6 +73,7 @@ app.get('/api/users/:id', async (req, res) => {
     }
 });
 
+// Insert user with emails
 app.post('/api/users', async (req, res) => {
     try {
         const { username, email } = req.body;
@@ -79,6 +84,7 @@ app.post('/api/users', async (req, res) => {
     }
 });
 
+// Modify user
 app.put('/api/users/:id', async (req, res) => {
     try {
         const { username, email } = req.body;
@@ -90,6 +96,7 @@ app.put('/api/users/:id', async (req, res) => {
     }
 });
 
+// Delete user
 app.delete('/api/users/:id', async (req, res) => {
     try {
         const [result] = await pool.query('DELETE FROM users WHERE id = ?', [req.params.id]);
@@ -101,6 +108,7 @@ app.delete('/api/users/:id', async (req, res) => {
 });
 
 // --- Products CRUD ---
+// Get products
 app.get('/api/products', async (req, res) => {
     try {
         const [rows] = await pool.query('SELECT * FROM products');
@@ -110,6 +118,7 @@ app.get('/api/products', async (req, res) => {
     }
 });
 
+// Get product by id
 app.get('/api/products/:id', async (req, res) => {
     try {
         const [rows] = await pool.query('SELECT * FROM products WHERE id = ?', [req.params.id]);
@@ -120,6 +129,7 @@ app.get('/api/products/:id', async (req, res) => {
     }
 });
 
+// Add product
 app.post('/api/products', async (req, res) => {
     try {
         const { name, price } = req.body;
@@ -130,6 +140,7 @@ app.post('/api/products', async (req, res) => {
     }
 });
 
+// Modify product
 app.put('/api/products/:id', async (req, res) => {
     try {
         const { name, price } = req.body;
@@ -141,6 +152,7 @@ app.put('/api/products/:id', async (req, res) => {
     }
 });
 
+// Delete product
 app.delete('/api/products/:id', async (req, res) => {
     try {
         const [result] = await pool.query('DELETE FROM products WHERE id = ?', [req.params.id]);

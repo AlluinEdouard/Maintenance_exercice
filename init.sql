@@ -22,3 +22,4 @@ INSERT INTO products (name, price) VALUES
 ('Laptop', 1200.00),
 ('Mouse', 25.00),
 ('Keyboard', 50.00);
+('My soul', 0.0)

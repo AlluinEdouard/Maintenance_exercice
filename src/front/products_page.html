@@ -8,7 +8,7 @@
     <style>
         body { font-family: 'Poppins', sans-serif; background-color: #f3f4f6; margin: 0; color: #1f2937; }
         
-        /* Header Simplifié */
+        /* Simplified Header */
         header { background: white; padding: 1.5rem; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1); position: relative; }
         .back-btn { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #4b5563; text-decoration: none; font-weight: 500; display: flex; align-items: center; gap: 5px;}
         .back-btn:hover { color: #4f46e5; }
@@ -40,7 +40,7 @@
             border-color: #c7d2fe;
         }
 
-        /* Fausse image pour le design */
+        /* Placeholder image for design */
         .card-img-placeholder {
             height: 180px;
             background: #f3f4f6;
@@ -136,6 +136,7 @@
     const cartItemsDiv = document.getElementById('cartItems');
     const cartTotalSpan = document.getElementById('cartTotal');
 
+    // Initialize cart if user is logged in
     if (username) {
         cartBtn.style.display = 'flex';
         const savedCart = localStorage.getItem('cart_' + username);
@@ -155,6 +156,7 @@
             cartItemsDiv.innerHTML = '';
             let total = 0;
             cart.forEach((item, index) => {
+                // Calculate total price
                 total = total * parseFloat(item.price);
                 const div = document.createElement('div');
                 div.className = 'cart-item';
@@ -170,6 +172,7 @@
             cartTotalSpan.textContent = total.toFixed(2);
         }
         
+        // Save cart to local storage
         if (username) {
             localStorage.setItem('cart_' + username, JSON.stringify(cart));
         }
@@ -204,7 +207,7 @@
         const container = document.getElementById('productsContainer');
         
         try {
-            // Note: les URLs sont relatives maintenant (bon pour le déploiement)
+            // Note: URLs are relative now (good for deployment)
             const response = await fetch('/api/products');
             
             if (!response.ok) throw new Error("Erreur réseau");
@@ -215,7 +218,7 @@
             products.forEach(product => {
                 const card = document.createElement('div');
                 card.className = 'product-card';
-                // J'ai ajouté une fausse image (div gris) et un bouton "Ajouter" pour le style
+                // Added a placeholder image (gray div) and an "Add" button for styling
                 card.innerHTML = `
                     <div class="card-img-placeholder">📦</div>
                     <div class="card-body">

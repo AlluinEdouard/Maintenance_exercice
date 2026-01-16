@@ -97,15 +97,17 @@
 </div>
 
 <script>
-    // Le script reste identique pour assurer la compatibilité
+    // Script to handle login and registration logic
     document.getElementById('loginForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         const usernameInput = document.getElementById('username').value;
         const errorMsg = document.getElementById('errorMsg');
+        // Determine if the action is registration or login based on the button clicked
         const isRegister = e.submitter.id === 'register';
         const endpoint = isRegister ? '/api/users/register' : '/api/users/login';
         
         try {
+            // Send request to the API
             const response = await fetch(endpoint, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -114,6 +116,7 @@
             const data = await response.json();
 
             if (response.ok) {
+                // If successful, store username and redirect to homepage
                 const username = (data.user && data.user.username) ? data.user.username : usernameInput;
                 localStorage.setItem('username', username);
                 window.location.href = 'index.html';
