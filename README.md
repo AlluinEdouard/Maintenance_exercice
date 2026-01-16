@@ -15,3 +15,15 @@ docker compose up
 ```bash
 docker-compose up
 ```
+
+## Usage
+
+To connect to the website:
+```http
+http://localhost:3000
+```
+
+To connect to the api:
+```http
+http://localhost:3000/api
+```
