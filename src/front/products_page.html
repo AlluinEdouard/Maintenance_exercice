@@ -141,14 +141,18 @@
         cartBtn.style.display = 'flex';
         const savedCart = localStorage.getItem('cart_' + username);
         if (savedCart) {
-            try { cart = JSON.parse(savedCart); } catch(e) { cart = []; }
+            try { 
+                const parsed = JSON.parse(savedCart);
+                cart = Array.isArray(parsed) ? parsed.map(item => ({ ...item, quantity: item.quantity ? Number(item.quantity) : 1 })) : [];
+            } catch(e) { cart = []; }
         }
         updateCartUI();
     }
 
     function updateCartUI() {
-        cartCountSpan.textContent = cart.length;
-        
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        cartCountSpan.textContent = totalItems;
+
         if (cart.length === 0) {
             cartItemsDiv.innerHTML = '<p style="color: #6b7280; text-align: center;">Votre panier est vide.</p>';
             cartTotalSpan.textContent = '0.00';
@@ -156,14 +160,16 @@
             cartItemsDiv.innerHTML = '';
             let total = 0;
             cart.forEach((item, index) => {
-                // Calculate total price
-                total = total * parseFloat(item.price);
+                total += Number(item.price) * item.quantity;
                 const div = document.createElement('div');
                 div.className = 'cart-item';
                 div.innerHTML = `
                     <span>${item.name}</span>
                     <span>
-                        ${item.price} €
+                        ${Number(item.price).toFixed(2)} €
+                        <button aria-label="Diminuer" style="margin:0 6px" onclick="changeQty(${index}, -1)">-</button>
+                        <strong>${item.quantity}</strong>
+                        <button aria-label="Augmenter" style="margin:0 6px" onclick="changeQty(${index}, 1)">+</button>
                         <span class="remove-item" onclick="removeFromCart(${index})">&times;</span>
                     </span>
                 `;
@@ -171,11 +177,20 @@
             });
             cartTotalSpan.textContent = total.toFixed(2);
         }
-        
-        // Save cart to local storage
+
         if (username) {
             localStorage.setItem('cart_' + username, JSON.stringify(cart));
         }
+    }
+
+    window.changeQty = function(index, delta) {
+        const item = cart[index];
+        if (!item) return;
+        item.quantity += delta;
+        if (item.quantity <= 0) {
+            cart.splice(index, 1);
+        }
+        updateCartUI();
     }
 
     window.removeFromCart = function(index) {
@@ -189,7 +204,12 @@
             window.location.href = 'connection_page.html';
             return;
         }
-        cart.push(product);
+        const existing = cart.find(item => item.id === product.id);
+        if (existing) {
+            existing.quantity += 1;
+        } else {
+            cart.push({ ...product, quantity: 1 });
+        }
         updateCartUI();
         alert(product.name + " ajouté au panier !");
     }
